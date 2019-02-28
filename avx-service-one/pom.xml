@@ -4,6 +4,14 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
+    <properties>
+        <maven-jar-plugin.version>3.1.0</maven-jar-plugin.version>
+        <maven-dependency-plugin.version>3.1.0</maven-dependency-plugin.version>
+        <slf4j.version>1.7.7</slf4j.version>
+        <log4j.version>2.11.0</log4j.version>
+        <disruptor.version>3.4.2</disruptor.version>
+    </properties>
+
     <groupId>com.appviewx.gossip</groupId>
     <artifactId>avx-service-one</artifactId>
     <version>0.0.1-SNAPSHOT</version>
@@ -18,17 +26,36 @@
                 </configuration>
             </plugin>
             <plugin>
-                <artifactId>maven-assembly-plugin</artifactId>
+                <artifactId>maven-jar-plugin</artifactId>
+                <version>${maven-jar-plugin.version}</version>
                 <configuration>
                     <archive>
                         <manifest>
-                            <mainClass>com.appviewx.gossip.ConsumerService</mainClass>
+                            <addClasspath>true</addClasspath>
+                            <classpathPrefix>lib/</classpathPrefix>
+                            <mainClass>${mainClass}</mainClass>
                         </manifest>
                     </archive>
-                    <descriptorRefs>
-                        <descriptorRef>jar-with-dependencies</descriptorRef>
-                    </descriptorRefs>
+                    <excludes>
+                        <exclude>META-INF/*.SF</exclude>
+                    </excludes>
                 </configuration>
+            </plugin>
+            <plugin>
+                <artifactId>maven-dependency-plugin</artifactId>
+                <version>${maven-dependency-plugin.version}</version>
+                <executions>
+                    <execution>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>copy-dependencies</goal>
+                        </goals>
+                        <configuration>
+                            <overWriteReleases>false</overWriteReleases>
+                            <outputDirectory>${project.build.directory}/lib</outputDirectory>
+                        </configuration>
+                    </execution>
+                </executions>
             </plugin>
         </plugins>
     </build>
@@ -50,13 +77,38 @@
         </dependency>
         <dependency>
             <groupId>io.scalecube</groupId>
-            <artifactId>scalecube-services-gateway-runner</artifactId>
+            <artifactId>scalecube-services-transport-rsocket</artifactId>
             <version>2.4.10</version>
         </dependency>
         <dependency>
             <groupId>io.scalecube</groupId>
-            <artifactId>scalecube-cluster</artifactId>
-            <version>2.2.5-SNAPSHOT</version>
+            <artifactId>scalecube-services-transport-jackson</artifactId>
+            <version>2.4.10</version>
+        </dependency>
+        <dependency>
+            <groupId>io.scalecube</groupId>
+            <artifactId>scalecube-services-discovery</artifactId>
+            <version>2.4.10</version>
+        </dependency>
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-api</artifactId>
+            <version>${slf4j.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.logging.log4j</groupId>
+            <artifactId>log4j-slf4j-impl</artifactId>
+            <version>${log4j.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.logging.log4j</groupId>
+            <artifactId>log4j-core</artifactId>
+            <version>${log4j.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.lmax</groupId>
+            <artifactId>disruptor</artifactId>
+            <version>${disruptor.version}</version>
         </dependency>
     </dependencies>
 

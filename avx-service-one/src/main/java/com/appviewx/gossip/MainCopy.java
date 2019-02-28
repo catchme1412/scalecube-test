@@ -7,17 +7,15 @@ import io.scalecube.config.source.ClassPathConfigSource;
 import io.scalecube.config.source.SystemEnvironmentConfigSource;
 import io.scalecube.config.source.SystemPropertiesConfigSource;
 import io.scalecube.services.Microservices;
-import io.scalecube.services.gateway.GatewayRunner;
 import io.scalecube.services.transport.api.Address;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import java.nio.file.Path;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 import java.util.function.Predicate;
 import java.util.regex.Pattern;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class MainCopy {
 
@@ -32,7 +30,7 @@ public class MainCopy {
     public static  void main(String args[]) throws InterruptedException {
         System.out.println("Starting...");
         //Read config
-        ConfigRegistry configRegistry = GatewayRunner.ConfigBootstrap.configRegistry();
+        ConfigRegistry configRegistry = AvxConfigBootstrap.configRegistry();
 
         Config config =
                 configRegistry
