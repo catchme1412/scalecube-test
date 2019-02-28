@@ -4,9 +4,7 @@ import io.scalecube.config.ConfigRegistry;
 import io.scalecube.services.Microservices;
 import io.scalecube.services.api.ServiceMessage;
 import io.scalecube.services.discovery.api.ServiceDiscoveryEvent;
-import io.scalecube.services.gateway.GatewayRunner;
 import io.scalecube.services.transport.api.Address;
-import org.apache.logging.log4j.Level;
 import org.reactivestreams.Publisher;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -30,11 +28,11 @@ public class ConsumerService {
         System.out.println("Starting consumer...");
 
         //Read config
-        ConfigRegistry configRegistry = GatewayRunner.ConfigBootstrap.configRegistry();
+        ConfigRegistry configRegistry = AvxConfigBootstrap.configRegistry();
 
-        Main.Config config =
+        AvxConfig config =
                 configRegistry
-                        .objectProperty("io.scalecube.services.examples", Main.Config.class)
+                        .objectProperty("io.scalecube.services.examples", AvxConfig.class)
                         .value()
                         .orElseThrow(() -> new IllegalStateException("Couldn't load config"));
 
